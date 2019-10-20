@@ -17,7 +17,7 @@ public class Deck
     Deck(ArrayList<Card> card)
     {
         _cards = new ArrayList<>();
-        card.forEach((c) -> _cards.add(c));
+        _cards.addAll(card);
     }
 
     public ArrayList<Card> getCards()
@@ -28,5 +28,10 @@ public class Deck
     public void setCards(ArrayList<Card> _cards)
     {
         this._cards = _cards;
+    }
+
+    public void removeCard(Card name)
+    {
+        _cards.remove(name);
     }
 }
