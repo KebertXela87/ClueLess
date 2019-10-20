@@ -1,4 +1,4 @@
-package edu.jhu.teamundecided.clueless;
+package edu.jhu.teamundecided.clueless.deck;
 
 public class Main {
 
@@ -13,12 +13,12 @@ public class Main {
         System.out.println("\nDecks Shuffled:\n");
         controller.printDecks();
 
-//        controller.selectCaseFile();
+        controller.selectCaseFile();
         // Selecting a stacked case file
         String suspect = "Professor Plum";
         String room = "Library";
         String weapon = "Rope";
-        controller.selectStackCaseFile(suspect, room, weapon);
+//        controller.selectStackCaseFile(suspect, room, weapon);
 
         System.out.println("\n");
         controller.printCaseFile();
@@ -38,14 +38,14 @@ public class Main {
 
         // Demo Accusation
         System.out.println("\n\nMy accusation is: " + suspect + " in the " + room + " with the " + weapon);
-        if(controller.checkAccusation(suspect, room, weapon))
-        {
-            System.out.println("CORRECT!");
-        }
-        else
-        {
-            System.out.println("WRONG!");
-        }
+        controller.checkAccusation(suspect, room, weapon);
         controller.printCaseFile();
+
+        // Demo Suggestion
+        System.out.println("\n\nSuggestion: " + suspect + " in the " + room + " with the " + weapon);
+        if (!controller.checkSusgestion(suspect, room, weapon))
+        {
+            System.out.println("No one has a suggested card");
+        }
     }
 }

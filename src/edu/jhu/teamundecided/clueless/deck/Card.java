@@ -1,4 +1,4 @@
-package edu.jhu.teamundecided.clueless;
+package edu.jhu.teamundecided.clueless.deck;
 
 public class Card
 {

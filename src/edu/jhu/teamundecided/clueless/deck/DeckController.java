@@ -1,6 +1,5 @@
-package edu.jhu.teamundecided.clueless;
+package edu.jhu.teamundecided.clueless.deck;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class DeckController
@@ -125,13 +124,50 @@ public class DeckController
             {
                 if (!card.getCardName().equals(accusation[index]))
                 {
+                    handleMessage("Your accusation is Wrong!");
                     return false;
                 }
                 index++;
             }
         }
 
+        handleMessage("Your accusation is Correct!");
         return true;
+    }
+
+    // Method to check Player hands for suggestion cards
+    // Player turn order:
+    // Miss Scarlett, Col. Mustard, Mrs. White, Mr. Green, Mrs. Peacock, Prof. Plum
+    public boolean checkSusgestion(String suspect, String room, String weapon)
+    {
+        String suggestion[] = new String[]{suspect, room, weapon};
+
+        // this should loop starting with the player whose turn is after the player making the suggestion.
+        // currently loops through all players starting with the first player
+        for (TempPlayer player : _players)
+        {
+            for (Card card : player.getPlayerHand())
+            {
+                for (String cardName : suggestion)
+                {
+                    if (card.getCardName().equals(cardName))
+                    {
+                        handleMessage("Player " + player.getId() + " has a card in suggestion");
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public void handleMessage(String msg)
+    {
+        System.out.println(msg);
+        // future use for this method may be to pass message to a player or broadcast to all players
+        // will need access to Server's ServerWorker list
+        // or a Player class will hold a reference to its ServerWorker then this will just reference
+        // the Player object and access the ServerWorker that way.
     }
 
     ////// DEBUG Methods ///////////////////////
@@ -213,6 +249,16 @@ public class DeckController
             {
                 _playerHand.add(card);
             }
+        }
+
+        public ArrayList<Card> getPlayerHand()
+        {
+            return _playerHand;
+        }
+
+        public int getId()
+        {
+            return _id;
         }
 
         public void printPlayerHand()
