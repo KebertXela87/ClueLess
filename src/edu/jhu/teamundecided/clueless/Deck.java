@@ -1,6 +1,7 @@
 package edu.jhu.teamundecided.clueless;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Deck
 {
@@ -20,6 +21,11 @@ public class Deck
         _cards.addAll(card);
     }
 
+    public void shuffleCards()
+    {
+        Collections.shuffle(_cards);
+    }
+
     public ArrayList<Card> getCards()
     {
         return _cards;
@@ -28,6 +34,18 @@ public class Deck
     public void setCards(ArrayList<Card> _cards)
     {
         this._cards = _cards;
+    }
+
+    public Card getCard(String name)
+    {
+        for (Card card : _cards)
+        {
+            if (card.getCardName().equals(name))
+            {
+                return card;
+            }
+        }
+        return null;
     }
 
     public void removeCard(Card name)

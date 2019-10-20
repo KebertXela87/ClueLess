@@ -46,18 +46,6 @@ public class DeckController
         _decks.add(_weaponDeck);
     }
 
-    public void selectCaseFile()
-    {
-        _CaseFile = new ArrayList<>();
-
-        for (Deck deck : _decks)
-        {
-            Card temp = deck.getCards().get(0);
-            _CaseFile.add(temp);
-            deck.removeCard(temp);
-        }
-    }
-
     public void combineDecks()
     {
         ArrayList<Card> tempList = new ArrayList<>();
@@ -70,40 +58,100 @@ public class DeckController
         _FullDeck = new Deck(tempList);
 
         // shuffle full deck
-        shuffleCards(_FullDeck);
+        _FullDeck.shuffleCards();
     }
 
-    public void shuffleCards(Deck deck)
+    public void selectCaseFile()
     {
-        Collections.shuffle(deck.getCards());
+        _CaseFile = new ArrayList<>();
+
+        for (Deck deck : _decks)
+        {
+            Card temp = deck.getCards().get(0);
+            _CaseFile.add(temp);
+            deck.removeCard(temp);
+        }
     }
 
     public void shuffleAllDecks()
     {
-        _decks.forEach(this::shuffleCards);
+        _decks.forEach(Deck::shuffleCards);
     }
 
-    public void dealCards()
+    public boolean dealCards()
     {
         // This method will deal all the cards to all the players
         if (_players == null)
         {
             System.out.println("Need players...");
-            return;
+            return false;
         }
 
         int playerId = 0;
         for (Card card : _FullDeck.getCards())
         {
-            _players.get(playerId++).addCardToHand(card);
+            try
+            {
+                _players.get(playerId++).addCardToHand(card);
+            }
+            catch (Exception ex)
+            {
+                ex.printStackTrace();
+                return false;
+            }
+
+            // loop playerId
             if (playerId == _players.size())
             {
                 playerId = 0;
             }
         }
+
+        // Deal successful
+        return true;
     }
 
-    // DEBUG Methods
+    // Method to check an accusation
+    public boolean checkAccusation(String suspect, String room, String weapon)
+    {
+        String accusation[] = new String[]{suspect, room, weapon};
+        Card.CardType cardTypes[] = Card.CardType.values();
+
+        int index = 0;
+        // Suspect
+        for (Card card : _CaseFile)
+        {
+            if (card.getType().equals(cardTypes[index]))
+            {
+                if (!card.getCardName().equals(accusation[index]))
+                {
+                    return false;
+                }
+                index++;
+            }
+        }
+
+        return true;
+    }
+
+    ////// DEBUG Methods ///////////////////////
+    public void selectStackCaseFile(String suspect, String room, String weapon)
+    {
+        _CaseFile = new ArrayList<>();
+
+        Card cf_Suspect = _suspectDeck.getCard(suspect);
+        Card cf_Room =_roomDeck.getCard(room);
+        Card cf_Weapon = _weaponDeck.getCard(weapon);
+
+        _CaseFile.add(cf_Suspect);
+        _CaseFile.add(cf_Room);
+        _CaseFile.add(cf_Weapon);
+
+        _suspectDeck.removeCard(cf_Suspect);
+        _roomDeck.removeCard(cf_Room);
+        _weaponDeck.removeCard(cf_Weapon);
+    }
+
     public void setupTempPlayers()
     {
         _players = new ArrayList<>();

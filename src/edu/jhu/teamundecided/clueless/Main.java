@@ -13,7 +13,12 @@ public class Main {
         System.out.println("\nDecks Shuffled:\n");
         controller.printDecks();
 
-        controller.selectCaseFile();
+//        controller.selectCaseFile();
+        // Selecting a stacked case file
+        String suspect = "Professor Plum";
+        String room = "Library";
+        String weapon = "Rope";
+        controller.selectStackCaseFile(suspect, room, weapon);
 
         System.out.println("\n");
         controller.printCaseFile();
@@ -24,10 +29,23 @@ public class Main {
 
         // Player Hands
         controller.setupTempPlayers();
-        controller.dealCards();
-        for (DeckController.TempPlayer player : controller.getPlayers())
+        if(controller.dealCards())
         {
-            player.printPlayerHand();
+            for (DeckController.TempPlayer player : controller.getPlayers()) {
+                player.printPlayerHand();
+            }
         }
+
+        // Demo Accusation
+        System.out.println("\n\nMy accusation is: " + suspect + " in the " + room + " with the " + weapon);
+        if(controller.checkAccusation(suspect, room, weapon))
+        {
+            System.out.println("CORRECT!");
+        }
+        else
+        {
+            System.out.println("WRONG!");
+        }
+        controller.printCaseFile();
     }
 }
