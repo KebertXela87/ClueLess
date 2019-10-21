@@ -1,5 +1,7 @@
 package edu.jhu.teamundecided.clueless.deck;
 
+import edu.jhu.teamundecided.clueless.player.Player;
+
 public class Main {
 
     public static void main(String[] args)
@@ -28,10 +30,10 @@ public class Main {
         controller.printFullDeck();
 
         // Player Hands
-        controller.setupTempPlayers();
+        controller.setupPlayers();
         if(controller.dealCards())
         {
-            for (DeckController.TempPlayer player : controller.getPlayers()) {
+            for (Player player : controller.getPlayers()) {
                 player.printPlayerHand();
             }
         }

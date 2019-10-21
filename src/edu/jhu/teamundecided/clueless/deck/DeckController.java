@@ -1,5 +1,7 @@
 package edu.jhu.teamundecided.clueless.deck;
 
+import edu.jhu.teamundecided.clueless.player.Player;
+
 import java.util.*;
 
 public class DeckController
@@ -18,7 +20,7 @@ public class DeckController
     private ArrayList<Card> _CaseFile;
 
     // Players (temp?)
-    private ArrayList<TempPlayer> _players;
+    private ArrayList<Player> _players;
 
     DeckController()
     {
@@ -144,7 +146,7 @@ public class DeckController
 
         // this should loop starting with the player whose turn is after the player making the suggestion.
         // currently loops through all players starting with the first player
-        for (TempPlayer player : _players)
+        for (Player player : _players)
         {
             for (Card card : player.getPlayerHand())
             {
@@ -188,18 +190,18 @@ public class DeckController
         _weaponDeck.removeCard(cf_Weapon);
     }
 
-    public void setupTempPlayers()
+    public void setupPlayers()
     {
         _players = new ArrayList<>();
         int totalPlayers = 6;
 
         for (int playerId = 0; playerId < totalPlayers; playerId++)
         {
-            _players.add(new TempPlayer(playerId));
+            _players.add(new Player(playerId));
         }
     }
 
-    public ArrayList<TempPlayer> getPlayers()
+    public ArrayList<Player> getPlayers()
     {
         return _players;
     }
@@ -229,45 +231,6 @@ public class DeckController
         for (Card card : _FullDeck.getCards())
         {
             System.out.println(card);
-        }
-    }
-
-    public class TempPlayer
-    {
-        private ArrayList<Card> _playerHand;
-        private int _id;
-
-        TempPlayer(int id)
-        {
-            _id = id;
-            _playerHand = new ArrayList<>();
-        }
-
-        public void addCardToHand(Card card)
-        {
-            if (!_playerHand.contains(card))
-            {
-                _playerHand.add(card);
-            }
-        }
-
-        public ArrayList<Card> getPlayerHand()
-        {
-            return _playerHand;
-        }
-
-        public int getId()
-        {
-            return _id;
-        }
-
-        public void printPlayerHand()
-        {
-            System.out.println("\nPlayer " + _id + " Hand:\n");
-            for (Card card : _playerHand)
-            {
-                System.out.println(card);
-            }
         }
     }
 }
